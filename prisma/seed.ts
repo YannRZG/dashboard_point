@@ -3,6 +3,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  // Nettoyage des tables
+  await prisma.transaction.deleteMany({});
+  await prisma.user.deleteMany({});
+  await prisma.domain.deleteMany({});
+
   // Créer des domaines
   const domain1 = await prisma.domain.create({
     data: {
@@ -38,23 +43,40 @@ async function main() {
   // Créer des transactions
   await prisma.transaction.create({
     data: {
-      senderId: user1.discordUsername,
-      receiverId: user2.discordUsername,
+      sender: { connect: { discordUsername: user1.discordUsername } },
+      receiver: { connect: { discordUsername: user2.discordUsername } },
       points: 50,
       description: "Points sent for project help",
       link: "https://example.com/project",
-      domainId: domain1.name,
+      domain: { connect: { name: domain1.name } },
     },
   });
 
   await prisma.transaction.create({
     data: {
-      senderId: user2.discordUsername,
-      receiverId: user1.discordUsername,
+      sender: { connect: { discordUsername: user2.discordUsername } },
+      receiver: { connect: { discordUsername: user1.discordUsername } },
       points: 25,
       description: "Design contribution",
       link: "https://example.com/design",
-      domainId: domain2.name,
+      domain: { connect: { name: domain2.name } },
+    },
+  });
+
+  // Mise à jour des points des utilisateurs après les transactions
+  await prisma.user.update({
+    where: { discordUsername: user1.discordUsername },
+    data: {
+      pointsSent: { increment: 50 },
+      balance: { decrement: 50 },
+    },
+  });
+
+  await prisma.user.update({
+    where: { discordUsername: user2.discordUsername },
+    data: {
+      pointsReceived: { increment: 75 },
+      balance: { increment: 25 },
     },
   });
 }
