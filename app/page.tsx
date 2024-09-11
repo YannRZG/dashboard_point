@@ -19,9 +19,9 @@ export default async function Home() {
         <Navbar />
       </header>
       <main className="flex-grow p-8 sm:p-20">
-        <h1 className="text-3xl font-bold mb-6 text-center">Liste des Utilisateurs</h1>
+        <h1 className="text-3xl font-bold m-6 text-center">Liste des Utilisateurs</h1>
         <UserTable users={users} />
-        <h1 className="text-3xl font-bold mb-6 text-center">Liste des Transactions</h1>
+        <h1 className="text-3xl font-bold m-6 text-center">Liste des Transactions</h1>
         <TransactionTable transactions={transactions} />
       </main>
       <Footer />

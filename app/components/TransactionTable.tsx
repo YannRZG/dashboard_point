@@ -1,4 +1,4 @@
-import { Transaction } from '@/types'; // Assurez-vous que le type Transaction est défini dans un fichier de types
+import { Transaction } from '../api/Type';
 
 interface TransactionTableProps {
   transactions: Transaction[];

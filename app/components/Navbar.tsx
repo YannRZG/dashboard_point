@@ -8,12 +8,16 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo ou Nom de l'application */}
         <Link href="/" className="flex items-center space-x-2">
-          <Image
-            src={Thp}
-            alt="PointTHP Logo"
-            width={100}
-            height={40}
-          />
+          <div className="relative w-[100px] h-[40px]"> {/* Conteneur avec position relative */}
+            <Image
+              src={Thp}
+              alt="PointTHP Logo"
+              fill
+              sizes="(max-width: 640px) 80px, (max-width: 768px) 100px, 100px"
+              style={{ objectFit: 'contain' }} // Ajuste l'image pour contenir dans le conteneur
+              priority
+            />
+          </div>
         </Link>
         {/* Liens de navigation */}
         <div className="hidden md:flex space-x-6">
