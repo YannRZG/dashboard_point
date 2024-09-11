@@ -1,6 +1,9 @@
 import prisma from "../../../lib/prismaClient";
 import Table from "../../components/Table";
 import Image from "next/image";
+import Badge from "../../components/Badge"; // Assurez-vous que le chemin est correct
+import { FaLink } from 'react-icons/fa'; // Importer l'icône FaLink
+import Link from 'next/link';
 
 interface ProfileProps {
   params: {
@@ -69,19 +72,45 @@ export default async function ProfilePage({ params }: ProfileProps) {
   const detailedTransactionData = [
     ...user.sent.map((transaction) => ({
       type: "Envoi",
-      member: transaction.receiverId,
+      member: (
+        <Link href={`/profile/${encodeURIComponent(transaction.receiverId)}`} passHref>
+          <Badge color="bg-red-500">{transaction.receiverId}</Badge>
+        </Link>
+      ),
       points: transaction.points,
       domain: transaction.domainId,
       description: transaction.description,
-      link: transaction.link,
+      link: (
+        <a
+          href={transaction.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center text-blue-600 transform hover:scale-125"
+        >
+          <FaLink className="mr-1 text-lg" />
+        </a>
+      ),
     })),
     ...user.received.map((transaction) => ({
       type: "Réception",
-      member: transaction.senderId,
+      member: (
+        <Link href={`/profile/${encodeURIComponent(transaction.senderId)}`} passHref>
+          <Badge color="bg-green-500">{transaction.senderId}</Badge>
+        </Link>
+      ),
       points: transaction.points,
       domain: transaction.domainId,
       description: transaction.description,
-      link: transaction.link,
+      link: (
+        <a
+          href={transaction.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center text-blue-600 transform hover:scale-125"
+        >
+          <FaLink className="mr-1 text-lg" />
+        </a>
+      ),
     })),
   ];
 
@@ -115,13 +144,15 @@ export default async function ProfilePage({ params }: ProfileProps) {
 
       <main className="flex flex-col p-8">
         <section className="flex flex-row justify-around space-y-4 mb-8">
-          <article className="flex flex-col items-center space-y-4 w-1/4">
+          <article className="flex flex-col items-center space-y-4 w-1/4 mt-4">
             <div className="bg-white shadow-md w-full rounded-lg">
               <div className="flex flex-col items-center justify-between p-6 h-full">
                 <h2 className="text-3xl font-semibold text-gray-800 mb-4">Rang</h2>
                 <div className="flex flex-col items-center justify-center h-full">
                   <p className="text-2xl font-bold text-gray-800 text-center">Points envoyés</p>
+                  <p>8</p>
                   <p className="text-2xl font-semibold text-gray-800 mt-2 text-center">Points reçus</p>
+                  <p>8</p>
                 </div>
               </div>
             </div>

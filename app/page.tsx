@@ -1,4 +1,3 @@
-import Footer from './components/Footer';
 import TransactionTable from './components/TransactionTable';
 import { User, Transaction } from './api/Type';
 import UserTable from './components/UserTable';
@@ -26,7 +25,6 @@ export default async function Home() {
         <h1 className="text-3xl font-bold m-6 text-center">Liste des Transactions</h1>
         <TransactionTable transactions={transactions} />
       </main>
-      <Footer />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-6">
+    <footer className="bg-gray-900 text-white py-6 relative">
       <div className="container mx-auto flex gap-6 flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline"
