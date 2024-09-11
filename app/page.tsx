@@ -3,6 +3,8 @@ import Footer from './components/Footer';
 import TransactionTable from './components/TransactionTable';
 import { User, Transaction } from './api/Type';
 import UserTable from './components/UserTable';
+import UserCount from './components/UserCount';
+import AveragePoints from './components/AveragePoints';
 
 
 export default async function Home() {
@@ -19,7 +21,11 @@ export default async function Home() {
         <Navbar />
       </header>
       <main className="flex-grow p-8 sm:p-16">
-        <h1 className="text-3xl font-bold mb-6 text-center">Liste des Utilisateurs</h1>
+        <div className='flex justify-around items-center'>
+        <UserCount />
+        <AveragePoints />
+        </div>
+        <h1 className="text-3xl font-bold my-6 text-center">Liste des Utilisateurs</h1>
         <UserTable users={users} />
         <h1 className="text-3xl font-bold m-6 text-center">Liste des Transactions</h1>
         <TransactionTable transactions={transactions} />
