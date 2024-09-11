@@ -1,8 +1,8 @@
 import prisma from "../../../lib/prismaClient";
 import Table from "../../components/Table";
 import Image from "next/image";
-import Badge from "../../components/Badge"; // Assurez-vous que le chemin est correct
-import { FaLink } from 'react-icons/fa'; // Importer l'icône FaLink
+import Badge from "../../components/Badge";
+import { FaLink } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface ProfileProps {
@@ -74,7 +74,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
       type: "Envoi",
       member: (
         <Link href={`/profile/${encodeURIComponent(transaction.receiverId)}`} passHref>
-          <Badge color="bg-red-500">{transaction.receiverId}</Badge>
+          <Badge color="bg-blue-500">{transaction.receiverId}</Badge>
         </Link>
       ),
       points: transaction.points,
@@ -85,9 +85,9 @@ export default async function ProfilePage({ params }: ProfileProps) {
           href={transaction.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-blue-600 transform hover:scale-125"
+          className="flex items-center text-blue-600 transform hover:scale-105"
         >
-          <FaLink className="mr-1 text-lg" />
+          <FaLink className="text-lg" />
         </a>
       ),
     })),
@@ -95,7 +95,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
       type: "Réception",
       member: (
         <Link href={`/profile/${encodeURIComponent(transaction.senderId)}`} passHref>
-          <Badge color="bg-green-500">{transaction.senderId}</Badge>
+          <Badge color="bg-blue-500">{transaction.senderId}</Badge>
         </Link>
       ),
       points: transaction.points,
@@ -106,9 +106,9 @@ export default async function ProfilePage({ params }: ProfileProps) {
           href={transaction.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-blue-600 transform hover:scale-125"
+          className="flex items-center text-blue-600 transform hover:scale-105"
         >
-          <FaLink className="mr-1 text-lg" />
+          <FaLink className="text-lg" />
         </a>
       ),
     })),
@@ -170,10 +170,28 @@ export default async function ProfilePage({ params }: ProfileProps) {
 
         <section className="flex justify-center items-center">
           <div className="bg-white shadow-md w-[88%] mb-4">
-            <Table
-              data={detailedTransactionData}
-              headers={detailedTransactionHeaders}
-            />
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr className="bg-gray-50">
+                  {detailedTransactionHeaders.map((header) => (
+                    <th key={header.key} className="px-6 py-3 text-left text-md font-semibold">
+                      {header.label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="bg-white ">
+                {detailedTransactionData.map((row, index) => (
+                  <tr key={index} className={row.type === "Envoi" ? "bg-red-100" : "bg-green-100"}>
+                    {detailedTransactionHeaders.map((header) => (
+                      <td key={header.key} className="px-6 py-4 text-md">
+                        {row[header.key]}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </section>
       </main>
