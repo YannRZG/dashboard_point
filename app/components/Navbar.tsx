@@ -5,10 +5,10 @@ import Thp from '/app/images/thp.png';
 const Navbar = () => {
   return (
     <nav className="bg-gray-900 text-white shadow-md">
-      <div className="container mx-auto flex justify-between items-center p-4">
+      <div className="container mx-auto flex justify-between items-center p-2">
         {/* Logo ou Nom de l'application */}
         <Link href="/" className="flex items-center space-x-2">
-          <div className="relative w-[100px] h-[40px]"> {/* Conteneur avec position relative */}
+          <div className="relative w-[150px] h-[60px]"> {/* Conteneur avec position relative */}
             <Image
               src={Thp}
               alt="PointTHP Logo"
