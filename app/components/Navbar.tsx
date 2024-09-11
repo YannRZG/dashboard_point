@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import Thp from '/app/images/thp.png';
+import Thp from '/public/images/thp.png';
 
 const Navbar = () => {
   return (

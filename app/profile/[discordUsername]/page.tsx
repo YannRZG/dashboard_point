@@ -1,7 +1,6 @@
-// app/profile/[discordUsername]/page.tsx
-
 import prisma from "../../../lib/prismaClient";
 import Table from "../../components/Table";
+import Image from "next/image";
 
 interface ProfileProps {
   params: {
@@ -15,8 +14,8 @@ async function fetchUserProfile(discordUsername: string) {
     const user = await prisma.user.findUnique({
       where: { discordUsername },
       include: {
-        sent: true, // Inclure les transactions envoyées
-        received: true, // Inclure les transactions reçues
+        sent: true,
+        received: true,
       },
     });
     console.log("Fetched user:", user);
@@ -32,9 +31,9 @@ export default async function ProfilePage({ params }: ProfileProps) {
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-100">
+      <main className="flex justify-center items-center h-screen bg-gray-100">
         <p className="text-lg text-red-600">Utilisateur non trouvé</p>
-      </div>
+      </main>
     );
   }
 
@@ -47,37 +46,30 @@ export default async function ProfilePage({ params }: ProfileProps) {
     },
   ];
 
-  // Ajoutez un nouveau tableau pour les transactions
   const transactionData = [
     {
-      transactionsCount: user.sent.length + user.received.length, // Compte total des transactions
-      receptionsCount: user.received.length, // Compte des réceptions
-      sendsCount: user.sent.length, // Compte des envois
+      transactionsCount: user.sent.length + user.received.length,
+      receptionsCount: user.received.length,
+      sendsCount: user.sent.length,
     },
   ];
 
-  // Modifiez les en-têtes pour le nouveau tableau
-  const transactionHeaders: {
-    key: keyof (typeof transactionData)[0];
-    label: string;
-  }[] = [
+  const transactionHeaders: { key: keyof (typeof transactionData)[0]; label: string }[] = [
     { key: "sendsCount", label: "Nombre d'Envois" },
     { key: "receptionsCount", label: "Nombre de Réceptions" },
     { key: "transactionsCount", label: "Nombre de Transactions" },
   ];
 
-  // Modifiez le type des en-têtes pour correspondre aux clés de userData
   const headers: { key: keyof (typeof userData)[0]; label: string }[] = [
     { key: "pointsReceived", label: "Points Reçus" },
     { key: "pointsSent", label: "Points Envoyés" },
     { key: "balance", label: "Solde" },
   ];
 
-  // Ajoutez un nouveau tableau pour les transactions détaillées
   const detailedTransactionData = [
     ...user.sent.map((transaction) => ({
       type: "Envoi",
-      member: transaction.receiverId, // Remplacez par l'ID du membre approprié
+      member: transaction.receiverId,
       points: transaction.points,
       domain: transaction.domainId,
       description: transaction.description,
@@ -85,7 +77,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
     })),
     ...user.received.map((transaction) => ({
       type: "Réception",
-      member: transaction.senderId, // Remplacez par l'ID du membre approprié
+      member: transaction.senderId,
       points: transaction.points,
       domain: transaction.domainId,
       description: transaction.description,
@@ -93,11 +85,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
     })),
   ];
 
-  // Définissez les en-têtes pour le tableau des transactions détaillées
-  const detailedTransactionHeaders: {
-    key: keyof (typeof detailedTransactionData)[0];
-    label: string;
-  }[] = [
+  const detailedTransactionHeaders: { key: keyof (typeof detailedTransactionData)[0]; label: string }[] = [
     { key: "type", label: "Type" },
     { key: "member", label: "Membre" },
     { key: "points", label: "Points" },
@@ -108,51 +96,56 @@ export default async function ProfilePage({ params }: ProfileProps) {
 
   return (
     <>
-      <header className="flex justify-center items-center h-[80px]">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          Profil de {user.discordUsername}
-        </h1>
+      <header className="flex justify-center items-center mt-6">
+        <div className="flex items-center justify-center w-[75%] bg-white shadow-md rounded-lg p-6 space-x-6">
+          <div className="relative w-16 h-16">
+            <Image
+              src="/images/avatar.avif"
+              alt="Avatar"
+              layout="fill"
+              className="rounded-full object-cover"
+              style={{ transform: "scale(1.4)" }}
+            />
+          </div>
+          <h1 className="text-2xl font-semibold text-gray-800">
+            Profil de {user.discordUsername}
+          </h1>
+        </div>
       </header>
 
-      <main className="flex flex-row justify-around space-y-4 p-8">
-        {/* Structure principale */}
-        <article className="flex justify-center space-y-4 w-1/4">
-          <div className="bg-white shadow-md w-full mt-3 rounded-lg">
-            <div className="flex flex-col items-center justify-between p-6 h-full">
-              <h2 className="text-3xl font-semibold text-gray-800 mb-4">
-                Rang
-              </h2>
-              <div className="flex flex-col items-center justify-center h-full">
-                <p className="text-2xl font-bold text-gray-800 text-center">
-                  Points envoyés
-                </p>
-                <p className="text-2xl font-semibold text-gray-800 mt-2 text-center">
-                  Points reçus
-                </p>
+      <main className="flex flex-col p-8">
+        <section className="flex flex-row justify-around space-y-4 mb-8">
+          <article className="flex flex-col items-center space-y-4 w-1/4">
+            <div className="bg-white shadow-md w-full rounded-lg">
+              <div className="flex flex-col items-center justify-between p-6 h-full">
+                <h2 className="text-3xl font-semibold text-gray-800 mb-4">Rang</h2>
+                <div className="flex flex-col items-center justify-center h-full">
+                  <p className="text-2xl font-bold text-gray-800 text-center">Points envoyés</p>
+                  <p className="text-2xl font-semibold text-gray-800 mt-2 text-center">Points reçus</p>
+                </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
 
-        <aside className="flex flex-col items-center space-y-4 w-3/5">
-          {/* Conteneur des tableaux */}
-          <div className="bg-white shadow-md w-full mb-4">
-            <Table data={userData} headers={headers} />
+          <aside className="flex flex-col items-center space-y-4 w-1/3">
+            <div className="bg-white shadow-md w-full mb-4">
+              <Table data={userData} headers={headers} />
+            </div>
+            <div className="bg-white shadow-md w-full">
+              <Table data={transactionData} headers={transactionHeaders} />
+            </div>
+          </aside>
+        </section>
+
+        <section className="flex justify-center items-center">
+          <div className="bg-white shadow-md w-[88%] mb-4">
+            <Table
+              data={detailedTransactionData}
+              headers={detailedTransactionHeaders}
+            />
           </div>
-          <div className="bg-white shadow-md w-full">
-            <Table data={transactionData} headers={transactionHeaders} />
-          </div>
-        </aside>
+        </section>
       </main>
-
-      <section className="flex justify-center items-center h-[30vh]">
-        <div className="bg-white shadow-md w-[88%] mb-4">
-          <Table
-            data={detailedTransactionData}
-            headers={detailedTransactionHeaders}
-          />
-        </div>
-      </section>
     </>
   );
 }
