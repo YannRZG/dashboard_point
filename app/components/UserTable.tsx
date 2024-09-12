@@ -1,7 +1,8 @@
 import React from 'react';
 import { User } from '../api/Type';
 import Link from 'next/link';
-import Table from './Table';  // Réutilisation du composant Table
+import Table from './Table';
+import Badge from './Badge'; // Assurez-vous que le chemin est correct
 
 interface UserTableProps {
   users: User[];
@@ -9,18 +10,17 @@ interface UserTableProps {
 
 const UserTable: React.FC<UserTableProps> = ({ users }) => {
   const headers = [
-    { key: 'discordUsername' as keyof User, label: 'Username' },
+    { key: 'discordUsername' as keyof User, label: 'discordUsername' },
     { key: 'pointsSent' as keyof User, label: 'Points Envoyés' },
     { key: 'pointsReceived' as keyof User, label: 'Points Reçus' },
     { key: 'balance' as keyof User, label: 'Solde' },
   ];
 
-  // Préparer les données en remplaçant le champ discordUsername par le composant Link
   const userData = users.map(user => ({
     ...user,
     discordUsername: (
-      <Link href={`/profile/${encodeURIComponent(user.discordUsername)}`}>
-        {user.discordUsername}
+      <Link href={`/profile/${encodeURIComponent(user.discordUsername)}`} passHref>
+        <Badge color="bg-blue-500">{user.discordUsername}</Badge> {/* Choisissez la couleur souhaitée */}
       </Link>
     ),
   }));

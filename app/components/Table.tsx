@@ -12,7 +12,7 @@ const Table = <T,>({ data, headers }: TableProps<T>) => {
         <thead>
           <tr className="border-b bg-gray-200">
             {headers.map((header) => (
-              <th key={header.key as string} className="p-4 text-left">
+              <th key={header.key as string} className="p-4 text-left text-sm">
                 {header.label}
               </th>
             ))}
