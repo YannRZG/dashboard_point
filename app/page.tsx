@@ -1,4 +1,3 @@
-import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import TransactionTable from './components/TransactionTable';
 import { User, Transaction } from './api/Type';
@@ -17,9 +16,6 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen font-sans bg-gray-100">
-      <header className="bg-gray-900 text-white">
-        <Navbar />
-      </header>
       <main className="flex-grow p-8 sm:p-16">
         <div className='flex justify-around items-center'>
         <UserCount />

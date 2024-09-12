@@ -1,6 +1,7 @@
 import React from 'react';
 import { User } from '../api/Type';
-import Table from './Table';
+import Link from 'next/link';
+import Table from './Table';  // Réutilisation du composant Table
 
 interface UserTableProps {
   users: User[];
@@ -14,7 +15,21 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
     { key: 'balance' as keyof User, label: 'Solde' },
   ];
 
-  return <Table data={users} headers={headers} />;
+  // Préparer les données en remplaçant le champ discordUsername par le composant Link
+  const userData = users.map(user => ({
+    ...user,
+    discordUsername: (
+      <Link href={`/profile/${encodeURIComponent(user.discordUsername)}`}>
+        {user.discordUsername}
+      </Link>
+    ),
+  }));
+
+  return (
+    <div className="overflow-x-auto">
+      <Table data={userData} headers={headers} />
+    </div>
+  );
 };
 
 export default UserTable;

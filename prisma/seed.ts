@@ -19,16 +19,16 @@ async function main() {
 
   // Créer des utilisateurs avec des soldes positifs
   const users = await Promise.all([
-    prisma.user.create({ data: { discordUsername: "user1#1234", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user2#5678", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user3#9101", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user4#1121", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user5#3141", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user6#5161", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user7#7181", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user8#9202", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user9#1223", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
-    prisma.user.create({ data: { discordUsername: "user10#3244", pointsSent: 0, pointsReceived: 0, balance: 100 } })
+    prisma.user.create({ data: { discordUsername: "user1", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user2", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user3", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user4", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user5", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user6", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user7", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user8", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user9", pointsSent: 0, pointsReceived: 0, balance: 100 } }),
+    prisma.user.create({ data: { discordUsername: "user10", pointsSent: 0, pointsReceived: 0, balance: 100 } })
   ]);
 
   // Créer des transactions

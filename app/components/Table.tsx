@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface TableProps<T> {
   data: T[];
@@ -23,7 +23,10 @@ const Table = <T,>({ data, headers }: TableProps<T>) => {
             <tr key={index} className="border-b hover:bg-gray-50">
               {headers.map((header) => (
                 <td key={header.key as string} className="p-4">
-                  {String(item[header.key])}
+                  {/* Vérifier si c'est un élément React ou une simple valeur */}
+                  {typeof item[header.key] === 'object' && item[header.key] !== null 
+                    ? (item[header.key] as ReactNode) 
+                    : String(item[header.key])}
                 </td>
               ))}
             </tr>
