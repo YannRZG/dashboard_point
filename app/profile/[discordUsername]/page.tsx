@@ -1,8 +1,8 @@
 import prisma from "../../../lib/prismaClient";
 import Table from "../../components/Table";
 import Image from "next/image";
-import Badge from "../../components/Badge"; // Assurez-vous que le chemin est correct
-import { FaLink } from 'react-icons/fa'; // Importer l'icône FaLink
+import Badge from "../../components/Badge";
+import { FaLink } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface ProfileProps {
@@ -74,10 +74,14 @@ export default async function ProfilePage({ params }: ProfileProps) {
       type: "Envoi",
       member: (
         <Link href={`/profile/${encodeURIComponent(transaction.receiverId)}`} passHref>
-          <Badge color="bg-red-500">{transaction.receiverId}</Badge>
+          <Badge color="bg-blue-500">{transaction.receiverId}</Badge>
         </Link>
       ),
-      points: transaction.points,
+      points: (
+        <span className="text-red-600 font-bold">
+          -{transaction.points}
+        </span>
+      ),
       domain: transaction.domainId,
       description: transaction.description,
       link: (
@@ -85,7 +89,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
           href={transaction.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-blue-600 transform hover:scale-125"
+          className="flex items-center text-blue-600 transform hover:scale-105"
         >
           <FaLink className="mr-1 text-lg" />
         </a>
@@ -95,10 +99,14 @@ export default async function ProfilePage({ params }: ProfileProps) {
       type: "Réception",
       member: (
         <Link href={`/profile/${encodeURIComponent(transaction.senderId)}`} passHref>
-          <Badge color="bg-green-500">{transaction.senderId}</Badge>
+          <Badge color="bg-blue-500">{transaction.senderId}</Badge>
         </Link>
       ),
-      points: transaction.points,
+      points: (
+        <span className="text-green-600 font-bold">
+          +{transaction.points}
+        </span>
+      ),
       domain: transaction.domainId,
       description: transaction.description,
       link: (
@@ -106,13 +114,14 @@ export default async function ProfilePage({ params }: ProfileProps) {
           href={transaction.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-blue-600 transform hover:scale-125"
+          className="flex items-center text-blue-600 transform hover:scale-105"
         >
           <FaLink className="mr-1 text-lg" />
         </a>
       ),
     })),
   ];
+  
 
   const detailedTransactionHeaders: { key: keyof (typeof detailedTransactionData)[0]; label: string }[] = [
     { key: "type", label: "Type" },
